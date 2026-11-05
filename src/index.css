@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@font-face { font-family: Inter; font-weight: 400; src: url('/chawo-site/Inter-Regular.ttf'); font-display: swap; }
+@font-face { font-family: Inter; font-weight: 500; src: url('/chawo-site/Inter-Medium.ttf'); font-display: swap; }
+@font-face { font-family: Inter; font-weight: 600; src: url('/chawo-site/Inter-SemiBold.ttf'); font-display: swap; }
+@font-face { font-family: Inter; font-weight: 700; src: url('/chawo-site/Inter-Bold.ttf'); font-display: swap; }
+
+@theme {
+  --font-sans: Inter, system-ui, sans-serif;
+  --color-ink: #111113;
+  --color-ink2: #1c1c1f;
+  --color-line: #2c2c30;
+  --color-dim: #a1a1aa;
+  --color-brand: #e5507a;
+  --color-brand-hover: #ec6a92;
+  --color-geo: #4f9dde;
+  --color-ok: #4cc38a;
+}
+
+html { scroll-behavior: smooth; }
+body { background: var(--color-ink); color: #f5f5f7; font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
