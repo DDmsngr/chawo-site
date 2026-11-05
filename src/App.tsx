@@ -13,6 +13,7 @@ import {
   type Icon,
 } from '@phosphor-icons/react'
 import Phone from './Phone'
+import { AnimatedHeading, FadeIn } from './HeroParts'
 import { BRAND, DOWNLOAD_URL, TAGLINE } from './brand'
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
@@ -53,7 +54,7 @@ function Nav() {
   return (
     <>
       <header className="fixed inset-x-4 top-4 z-40 mx-auto max-w-3xl">
-        <div className="flex h-14 items-center justify-between rounded-2xl border border-line bg-ink2/70 px-4 backdrop-blur-md">
+        <div className="flex h-14 items-center justify-between liquid-glass rounded-xl px-4">
           <a href="#top" className="title-2 font-semibold focus-visible:outline-2 focus-visible:outline-white">
             {BRAND}
           </a>
@@ -123,28 +124,55 @@ function Nav() {
 }
 
 function Hero() {
-  const reveal = useReveal()
   return (
-    <section id="top" className="px-4 pb-24 pt-24 sm:px-6">
-      <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2">
-        <motion.div {...reveal}>
-          <p className="caption-1 mb-4 text-geo">Петербург</p>
-          <h1 className="heading-1 max-w-[680px] bg-gradient-to-r from-white to-[#9b9b9b] bg-clip-text text-transparent">
-            {TAGLINE}.<br />
-            Выходите из дома
-          </h1>
-          <p className="body-lg mt-6 max-w-[680px] text-dim">
-            Карта мест и событий вашего города, встречи с теми, кто рядом, просьбы соседей и прогулки с подсказками
-            прямо на камере.
-          </p>
-          <div className="mt-8">
-            <DownloadButton large />
+    <section id="top" className="relative flex min-h-screen flex-col overflow-hidden bg-black">
+      <video
+        className="absolute inset-0 h-full w-full object-cover"
+        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260403_050628_c4e32401-fab4-4a27-b7a8-6e9291cd5959.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
+        aria-hidden
+      />
+      <div className="relative z-10 flex flex-1 flex-col justify-end px-6 pb-12 pt-24 md:px-12 lg:px-16 lg:pb-16">
+        <div className="lg:grid lg:grid-cols-2 lg:items-end">
+          <div>
+            <AnimatedHeading
+              text={`${TAGLINE}.
+Выходите из дома`}
+              className="mb-4 text-4xl font-normal md:text-5xl lg:text-6xl xl:text-7xl"
+            />
+            <FadeIn delay={800}>
+              <p className="mb-5 max-w-[680px] text-base text-gray-300 md:text-lg">
+                Карта мест и событий вашего города, встречи с теми, кто рядом, и прогулки с подсказками прямо на камере.
+              </p>
+            </FadeIn>
+            <FadeIn delay={1200}>
+              <div className="flex flex-wrap gap-4">
+                <a
+                  href={DOWNLOAD_URL}
+                  className="rounded-lg bg-white px-8 py-3 font-medium text-black transition duration-300 hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-[0.98]"
+                >
+                  Скачать для Android
+                </a>
+                <a
+                  href="#features"
+                  className="liquid-glass rounded-lg border border-white/20 px-8 py-3 font-medium text-white transition duration-300 hover:bg-white hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-[0.98]"
+                >
+                  Что внутри
+                </a>
+              </div>
+            </FadeIn>
           </div>
-          <p className="caption-2 mt-4 text-dim">Первая прогулка по Петербургу уже в приложении: пятнадцать мест.</p>
-        </motion.div>
-        <motion.div {...reveal} transition={{ ...reveal.transition, delay: 0.15 }}>
-          <Phone alt="Карта города в приложении" icon={MapTrifold} />
-        </motion.div>
+          <div className="mt-8 flex items-end justify-start lg:mt-0 lg:justify-end">
+            <FadeIn delay={1400}>
+              <div className="liquid-glass rounded-xl border border-white/20 px-6 py-3">
+                <p className="text-lg font-light md:text-xl lg:text-2xl">Карта. События. Встречи.</p>
+              </div>
+            </FadeIn>
+          </div>
+        </div>
       </div>
     </section>
   )
