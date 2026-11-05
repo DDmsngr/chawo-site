@@ -3,7 +3,7 @@ import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform, typ
 import {
   CalendarCheck,
   Camera,
-  ChatCircleDots,
+  PlusCircle,
   Compass,
   DownloadSimple,
   HandHeart,
@@ -194,13 +194,14 @@ function Problem() {
   )
 }
 
-type Feature = { icon: Icon; title: string; text: string; tag: string; accent: string }
+type Feature = { icon: Icon; title: string; text: string; tag: string; accent: string; shot?: string }
 
 const features: Feature[] = [
   {
     icon: MapTrifold,
     tag: 'Карта',
     accent: '#4f9dde',
+    shot: 'map.jpg',
     title: 'Весь город на одной карте',
     text: 'Кафе, бары, музеи, достопримечательности и события рядом. Фильтры по категориям помогут найти именно то, что хочется сегодня.',
   },
@@ -208,6 +209,7 @@ const features: Feature[] = [
     icon: Lightning,
     tag: 'Сейчас',
     accent: '#e5507a',
+    shot: 'now.jpg',
     title: 'Позовите людей за 15 секунд',
     text: 'Гуляем, пьём кофе, играем в настолки. Напишите, что делаете, выберите время, и активность появится на карте на два часа.',
   },
@@ -215,6 +217,7 @@ const features: Feature[] = [
     icon: HandHeart,
     tag: 'Мне надо',
     accent: '#4cc38a',
+    shot: 'needs.jpg',
     title: 'Соседи помогают друг другу',
     text: 'Попросить помощи, отдать вещь, найти потерянное, позвать компанию или спросить совета. Восемь типов просьб, и отклик приходит от тех, кто рядом.',
   },
@@ -226,11 +229,12 @@ const features: Feature[] = [
     text: 'Поднимите телефон, и стрелка покажет, куда идти. Побывали в настоящем месте, получили штамп в паспорт города.',
   },
   {
-    icon: ChatCircleDots,
-    tag: 'Чаты и встречи',
+    icon: PlusCircle,
+    tag: 'Создать',
     accent: '#2dd4bf',
-    title: 'От знакомства до встречи',
-    text: 'Личные чаты, группы и встречи в одном месте. Всё, что вы запланировали, собрано во вкладке «Встречи».',
+    title: 'Событие, маршрут или квест за минуту',
+    text: 'Выберите формат, и город увидит. Можно позвать людей на встречу, записать путь по городу или придумать задание со своими правилами.',
+    shot: 'create.jpg',
   },
 ]
 
@@ -256,7 +260,7 @@ function Features() {
                 <h3 className="heading-3 mt-6 max-w-lg">{f.title}</h3>
                 <p className="body-lg mt-4 max-w-md text-dim">{f.text}</p>
               </div>
-              <Phone alt={f.title} icon={f.icon} accent={f.accent} />
+              <Phone alt={f.title} icon={f.icon} accent={f.accent} src={f.shot} />
             </motion.div>
           ))}
         </div>
