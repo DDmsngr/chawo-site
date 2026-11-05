@@ -227,8 +227,9 @@ const features: Feature[] = [
     icon: Camera,
     tag: 'Маршруты и паспорт',
     accent: '#f5a524',
-    title: 'Подсказка на камере и штампы за места',
-    text: 'Поднимите телефон, и стрелка покажет, куда идти. Побывали в настоящем месте, получили штамп в паспорт города.',
+    title: 'Штампы за настоящие места и подсказка на камере',
+    text: 'Первая прогулка по Петербургу: пятнадцать мест центра, от Дворцовой площади до Петропавловской крепости и Новой Голландии. Подойдите ближе 50 метров, и место получит штамп. Подсказка на камере покажет, куда идти.',
+    shot: 'passport.jpg',
   },
   {
     icon: PlusCircle,
@@ -424,6 +425,7 @@ function Footer() {
   return (
     <footer className="border-t border-line px-4 py-10 text-center caption-2 text-dim sm:px-6">
       <p>© {new Date().getFullYear()} {BRAND}</p>
+      <p className="mx-auto mt-2 max-w-2xl">Фото мест в паспорте города: Wikimedia Commons, авторы и лицензии указаны в приложении.</p>
       <p className="mx-auto mt-2 max-w-2xl">
         Видео в начале страницы:{' '}
         <a className="underline underline-offset-2 hover:text-white" href="https://commons.wikimedia.org/wiki/File:Bridges_in_Saint_Petersburg_MVI_3926.webm">
