@@ -1,21 +1,50 @@
 @import "tailwindcss";
 
-@font-face { font-family: Inter; font-weight: 400; src: url('/chawo-site/Inter-Regular.ttf'); font-display: swap; }
-@font-face { font-family: Inter; font-weight: 500; src: url('/chawo-site/Inter-Medium.ttf'); font-display: swap; }
-@font-face { font-family: Inter; font-weight: 600; src: url('/chawo-site/Inter-SemiBold.ttf'); font-display: swap; }
-@font-face { font-family: Inter; font-weight: 700; src: url('/chawo-site/Inter-Bold.ttf'); font-display: swap; }
-
 @theme {
-  --font-sans: Inter, system-ui, sans-serif;
-  --color-ink: #111113;
-  --color-ink2: #1c1c1f;
-  --color-line: #2c2c30;
+  --font-sans: 'Manrope Variable', system-ui, sans-serif;
+  /* Тёмные фоны только из списка скилла */
+  --color-ink: #000000;
+  --color-ink2: #181818;
+  --color-card: #1f1f1f;
+  --color-raised: #272727;
+  --color-line: #313131;
   --color-dim: #a1a1aa;
   --color-brand: #e5507a;
   --color-brand-hover: #ec6a92;
   --color-geo: #4f9dde;
-  --color-ok: #4cc38a;
+  --ease-base: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 html { scroll-behavior: smooth; }
 body { background: var(--color-ink); color: #f5f5f7; font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+h1, h2, h3, h4 { text-wrap: balance; }
+p, summary { text-wrap: pretty; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+/* Именованные текстовые стили (B1) */
+@layer components {
+  .heading-1 { @apply text-5xl font-semibold sm:text-6xl; }
+  .heading-2 { @apply text-4xl font-semibold sm:text-5xl; }
+  .heading-3 { @apply text-3xl font-semibold sm:text-4xl; }
+  .heading-5 { @apply text-2xl font-semibold; }
+  .title-2 { @apply text-lg font-medium; }
+  .title-4 { @apply text-sm font-medium; }
+  .body-3 { @apply text-base font-normal; }
+  .body-lg { @apply text-lg font-normal; }
+  .button-md { @apply text-base font-semibold; }
+  .button-lg { @apply text-lg font-semibold; }
+  .button-sm { @apply text-sm font-semibold; }
+  .caption-1 { @apply text-sm font-medium; }
+  .caption-2 { @apply text-sm font-normal; }
+
+  /* Главная кнопка: 8px по вертикали, 12px по горизонтали */
+  .btn {
+    @apply inline-flex items-center gap-2 rounded-xl px-3 py-2 transition duration-300 ease-base
+      hover:-translate-y-px active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white;
+  }
+  .btn-brand { @apply bg-brand text-white hover:bg-brand-hover; }
+  .btn-white { @apply bg-white text-black hover:bg-white/90; }
+}
