@@ -3,6 +3,8 @@ import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform, typ
 import {
   CalendarCheck,
   Camera,
+  ChatCircleDots,
+  Medal,
   PlusCircle,
   Compass,
   DownloadSimple,
@@ -194,7 +196,7 @@ function Problem() {
   )
 }
 
-type Feature = { icon: Icon; title: string; text: string; tag: string; accent: string; shot?: string }
+type Feature = { icon: Icon; title: string; text: string; tag: string; accent: string; shot?: string; points?: [string, string][] }
 
 const features: Feature[] = [
   {
@@ -236,6 +238,30 @@ const features: Feature[] = [
     text: 'Выберите формат, и город увидит. Можно позвать людей на встречу, записать путь по городу или придумать задание со своими правилами.',
     shot: 'create.jpg',
   },
+  {
+    icon: ChatCircleDots,
+    tag: 'Каналы и чаты',
+    accent: '#a3e635',
+    title: 'Новости города, чаты и группы в одном списке',
+    text: 'Подпишитесь на каналы вроде «Петербург сегодня», новости, науку и мемы. Личные чаты, группы и встречи лежат рядом, переключайтесь одним касанием.',
+    shot: 'channels.jpg',
+  },
+  {
+    icon: Medal,
+    tag: 'Профиль и AP',
+    accent: '#fb7185',
+    title: 'Очки активности за то, что вы делаете в городе',
+    text: 'AP копятся за живые действия, а не за время в приложении. Очки засчитываются через сутки после действия, в день можно набрать до 300 AP. В профиле видны ваш город, роль и очки.',
+    shot: 'profile.jpg',
+    points: [
+      ['+1', 'лайк под вашим постом'],
+      ['+2', 'комментарий под вашим постом'],
+      ['+3', 'штамп в паспорте города'],
+      ['+10', 'пришли на событие'],
+      ['+20', 'прошли квест с отметкой прихода'],
+      ['+30', 'провели событие или собрали коллекцию паспорта'],
+    ],
+  },
 ]
 
 function Features() {
@@ -253,12 +279,22 @@ function Features() {
               {...reveal}
               className={`grid items-center gap-12 lg:grid-cols-2 ${i % 2 ? 'lg:[&>div:first-child]:order-2' : ''}`}
             >
-              <div>
-                <span style={{ '--accent': f.accent } as CSSProperties} className="caption-1 inline-flex items-center gap-2 rounded-full border border-(--accent)/40 bg-(--accent)/15 px-4 py-2 text-(--accent)">
+              <div style={{ '--accent': f.accent } as CSSProperties}>
+                <span className="caption-1 inline-flex items-center gap-2 rounded-full border border-(--accent)/40 bg-(--accent)/15 px-4 py-2 text-(--accent)">
                   <f.icon size={16} weight="bold" aria-hidden /> {f.tag}
                 </span>
                 <h3 className="heading-3 mt-6 max-w-lg">{f.title}</h3>
                 <p className="body-lg mt-4 max-w-md text-dim">{f.text}</p>
+                {f.points && (
+                  <ul className="mt-6 grid max-w-md gap-2">
+                    {f.points.map(([n, t]) => (
+                      <li key={t} className="flex items-center gap-3">
+                        <span className="caption-1 min-w-16 rounded-lg bg-(--accent)/15 px-2 py-1 text-center text-(--accent)">{n} AP</span>
+                        <span className="caption-2 text-gray-300">{t}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
               <Phone alt={f.title} icon={f.icon} accent={f.accent} src={f.shot} />
             </motion.div>
@@ -333,6 +369,7 @@ const faq = [
   { q: 'Зачем приложению геолокация?', a: 'Положение нужно, чтобы показать, что рядом, и поставить точку встречи. Доступ вы выдаёте сами и можете отключить в настройках телефона.' },
   { q: 'Что такое «Сейчас»?', a: 'Быстрый способ позвать людей: напишите, что делаете, выберите время, и активность на два часа появится на карте. Присоединиться может любой.' },
   { q: 'Что такое «Мне надо»?', a: 'Просьба к тем, кто рядом: помощь, обмен, потерянная или найденная вещь, компания, совет или специалист. Отклик приходит прямо в приложение.' },
+  { q: 'Что такое AP?', a: 'Очки активности. Их начисляют за лайки и комментарии под вашими постами, штампы паспорта, приход на события, квесты и проведение событий. Очки засчитываются через сутки, в день можно набрать до 300 AP.' },
   { q: 'Что такое паспорт города?', a: 'Подборка настоящих мест с маршрутом. Когда вы приходите на место, приложение ставит штамп. Первая прогулка по Петербургу состоит из пятнадцати мест.' },
   { q: 'Как предложить место на общую карту?', a: 'Отметьте точку у себя и отправьте на проверку. Амбассадор вашего города посмотрит и решит, показывать ли её всем.' },
 ]
