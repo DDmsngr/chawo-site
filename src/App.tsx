@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, type CSSProperties } from 'react'
 import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform, type MotionValue } from 'framer-motion'
 import {
   CalendarCheck,
@@ -58,7 +58,7 @@ function Nav() {
           <a href="#top" className="title-2 font-semibold focus-visible:outline-2 focus-visible:outline-white">
             {BRAND}
           </a>
-          <nav aria-label="Разделы" className="caption-1 hidden gap-6 text-dim sm:flex">
+          <nav aria-label="Разделы" className="caption-1 hidden gap-6 text-gray-100 sm:flex">
             {navLinks.map((l) => (
               <a key={l.href} href={l.href} className="transition duration-300 ease-base hover:text-white focus-visible:outline-2 focus-visible:outline-white">
                 {l.label}
@@ -128,7 +128,8 @@ function Hero() {
     <section id="top" className="relative flex min-h-screen flex-col overflow-hidden bg-black">
       <video
         className="absolute inset-0 h-full w-full object-cover"
-        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260403_050628_c4e32401-fab4-4a27-b7a8-6e9291cd5959.mp4"
+        src={`${import.meta.env.BASE_URL}spb-bridge.mp4`}
+        poster={`${import.meta.env.BASE_URL}spb-bridge-poster.jpg`}
         autoPlay
         loop
         muted
@@ -141,10 +142,10 @@ function Hero() {
             <AnimatedHeading
               text={`${TAGLINE}.
 Выходите из дома`}
-              className="mb-4 text-4xl font-normal md:text-5xl lg:text-6xl xl:text-7xl"
+              className="mb-4 text-4xl font-normal [text-shadow:0_2px_24px_rgba(0,0,0,0.45)] md:text-5xl lg:text-6xl xl:text-7xl"
             />
             <FadeIn delay={800}>
-              <p className="mb-5 max-w-[680px] text-base text-gray-300 md:text-lg">
+              <p className="mb-5 max-w-[680px] text-base text-gray-100 [text-shadow:0_1px_12px_rgba(0,0,0,0.55)] md:text-lg">
                 Карта мест и событий вашего города, встречи с теми, кто рядом, и прогулки с подсказками прямо на камере.
               </p>
             </FadeIn>
@@ -193,36 +194,41 @@ function Problem() {
   )
 }
 
-type Feature = { icon: Icon; title: string; text: string; tag: string }
+type Feature = { icon: Icon; title: string; text: string; tag: string; accent: string }
 
 const features: Feature[] = [
   {
     icon: MapTrifold,
     tag: 'Карта',
+    accent: '#4f9dde',
     title: 'Весь город на одной карте',
     text: 'Кафе, бары, музеи, достопримечательности и события рядом. Фильтры по категориям помогут найти именно то, что хочется сегодня.',
   },
   {
     icon: Lightning,
     tag: 'Сейчас',
+    accent: '#e5507a',
     title: 'Позовите людей за 15 секунд',
     text: 'Гуляем, пьём кофе, играем в настолки. Напишите, что делаете, выберите время, и активность появится на карте на два часа.',
   },
   {
     icon: HandHeart,
     tag: 'Мне надо',
+    accent: '#4cc38a',
     title: 'Соседи помогают друг другу',
     text: 'Попросить помощи, отдать вещь, найти потерянное, позвать компанию или спросить совета. Восемь типов просьб, и отклик приходит от тех, кто рядом.',
   },
   {
     icon: Camera,
     tag: 'Маршруты и паспорт',
+    accent: '#f5a524',
     title: 'Подсказка на камере и штампы за места',
     text: 'Поднимите телефон, и стрелка покажет, куда идти. Побывали в настоящем месте, получили штамп в паспорт города.',
   },
   {
     icon: ChatCircleDots,
     tag: 'Чаты и встречи',
+    accent: '#2dd4bf',
     title: 'От знакомства до встречи',
     text: 'Личные чаты, группы и встречи в одном месте. Всё, что вы запланировали, собрано во вкладке «Встречи».',
   },
@@ -244,13 +250,13 @@ function Features() {
               className={`grid items-center gap-12 lg:grid-cols-2 ${i % 2 ? 'lg:[&>div:first-child]:order-2' : ''}`}
             >
               <div>
-                <span className="caption-1 inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-geo">
+                <span style={{ '--accent': f.accent } as CSSProperties} className="caption-1 inline-flex items-center gap-2 rounded-full border border-(--accent)/40 bg-(--accent)/15 px-4 py-2 text-(--accent)">
                   <f.icon size={16} weight="bold" aria-hidden /> {f.tag}
                 </span>
                 <h3 className="heading-3 mt-6 max-w-lg">{f.title}</h3>
                 <p className="body-lg mt-4 max-w-md text-dim">{f.text}</p>
               </div>
-              <Phone alt={f.title} icon={f.icon} />
+              <Phone alt={f.title} icon={f.icon} accent={f.accent} />
             </motion.div>
           ))}
         </div>
@@ -284,10 +290,10 @@ function TaglineReveal() {
   )
 }
 
-const steps: { icon: Icon; title: string; text: string }[] = [
-  { icon: MapPin, title: 'Откройте карту', text: 'Приложение покажет, что происходит рядом с вами, в вашем районе и по всему городу.' },
-  { icon: CalendarCheck, title: 'Выберите или создайте', text: 'Присоединитесь к событию, откликнитесь на просьбу или сами позовите людей кнопкой «Сейчас».' },
-  { icon: Compass, title: 'Идите и встречайтесь', text: 'Маршрут подскажет дорогу, чат поможет договориться, а штамп в паспорте останется на память.' },
+const steps: { icon: Icon; title: string; text: string; accent: string }[] = [
+  { icon: MapPin, title: 'Откройте карту', accent: '#4f9dde', text: 'Приложение покажет, что происходит рядом с вами, в вашем районе и по всему городу.' },
+  { icon: CalendarCheck, title: 'Выберите или создайте', accent: '#e5507a', text: 'Присоединитесь к событию, откликнитесь на просьбу или сами позовите людей кнопкой «Сейчас».' },
+  { icon: Compass, title: 'Идите и встречайтесь', accent: '#4cc38a', text: 'Маршрут подскажет дорогу, чат поможет договориться, а штамп в паспорте останется на память.' },
 ]
 
 function How() {
@@ -300,12 +306,12 @@ function How() {
         </motion.h2>
         <div className="mt-16 grid gap-6 md:grid-cols-3">
           {steps.map((s, i) => (
-            <motion.div key={s.title} {...reveal} transition={{ ...reveal.transition, delay: i * 0.1 }} className="rounded-3xl border border-line bg-card p-8">
+            <motion.div key={s.title} {...reveal} transition={{ ...reveal.transition, delay: i * 0.1 }} style={{ '--accent': s.accent } as CSSProperties} className="rounded-3xl border border-line bg-card p-8 transition-colors duration-500 ease-base hover:border-(--accent)/60">
               <div className="flex items-center gap-4">
-                <span className="flex size-12 items-center justify-center rounded-2xl bg-raised text-brand">
+                <span className="flex size-12 items-center justify-center rounded-2xl bg-(--accent)/15 text-(--accent)">
                   <s.icon size={24} weight="bold" aria-hidden />
                 </span>
-                <span className="caption-1 text-dim">Шаг {i + 1}</span>
+                <span className="caption-1 text-(--accent)">Шаг {i + 1}</span>
               </div>
               <h3 className="title-2 mt-6">{s.title}</h3>
               <p className="body-3 mt-3 text-dim">{s.text}</p>
@@ -376,7 +382,18 @@ function Cta() {
 function Footer() {
   return (
     <footer className="border-t border-line px-4 py-10 text-center caption-2 text-dim sm:px-6">
-      © {new Date().getFullYear()} {BRAND}
+      <p>© {new Date().getFullYear()} {BRAND}</p>
+      <p className="mx-auto mt-2 max-w-2xl">
+        Видео в начале страницы:{' '}
+        <a className="underline underline-offset-2 hover:text-white" href="https://commons.wikimedia.org/wiki/File:Bridges_in_Saint_Petersburg_MVI_3926.webm">
+          Deror avi
+        </a>
+        ,{' '}
+        <a className="underline underline-offset-2 hover:text-white" href="https://creativecommons.org/licenses/by-sa/4.0/">
+          CC BY-SA 4.0
+        </a>
+        , Wikimedia Commons. Ролик обрезан и сжат.
+      </p>
     </footer>
   )
 }
