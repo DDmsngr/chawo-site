@@ -22,7 +22,7 @@ export function FadeIn({ delay, duration = 1000, children, className = '' }: { d
 const CHAR_DELAY = 30
 
 /// Заголовок: строки по \n, каждая буква выезжает слева с задержкой.
-export function AnimatedHeading({ text, className = '' }: { text: string; className?: string }) {
+export function AnimatedHeading({ text, className = '', lineClassNames = [] }: { text: string; className?: string; lineClassNames?: string[] }) {
   const reduce = useReducedMotion()
   const [started, setStarted] = useState(false)
   useEffect(() => {
@@ -32,11 +32,11 @@ export function AnimatedHeading({ text, className = '' }: { text: string; classN
 
   const lines = text.split('\n')
   return (
-    <h1 className={className} style={{ letterSpacing: '-0.04em' }}>
+    <h1 className={className} style={{ letterSpacing: '-0.04em' }} aria-label={lines.join(' ')}>
       {lines.map((line, lineIndex) => {
         let charIndex = 0
         return (
-          <span key={lineIndex} className="block">
+          <span key={lineIndex} aria-hidden className={`block ${lineClassNames[lineIndex] ?? ''}`}>
             {line.split(' ').map((word, wordIndex) => (
               <span key={wordIndex} className="inline-block whitespace-nowrap">
                 {word.split('').map((char) => {

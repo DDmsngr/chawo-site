@@ -1,4 +1,4 @@
-import { useRef, useState, type CSSProperties } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform, type MotionValue } from 'framer-motion'
 import {
   CalendarCheck,
@@ -15,8 +15,9 @@ import {
   type Icon,
 } from '@phosphor-icons/react'
 import Phone from './Phone'
+import HeroHands from './HeroHands'
 import { AnimatedHeading, FadeIn } from './HeroParts'
-import { BRAND, DOWNLOAD_URL, TAGLINE } from './brand'
+import { BRAND, DOWNLOAD_URL, HERO_VIDEO, TAGLINE } from './brand'
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
@@ -125,57 +126,72 @@ function Nav() {
   )
 }
 
+const heroScreens: [string, string][] = [
+  ['map.jpg', 'Карта мест и событий в приложении'],
+  ['now.jpg', 'Экран «Сейчас»: встречи на пару часов'],
+  ['needs.jpg', 'Экран «Мне надо»: просьбы соседей'],
+  ['passport.jpg', 'Паспорт города со штампами мест'],
+  ['create.jpg', 'Создание события, маршрута или квеста'],
+  ['channels.jpg', 'Каналы и чаты'],
+  ['profile.jpg', 'Профиль и очки активности'],
+]
+
 function Hero() {
+  const reduce = useReducedMotion() ?? false
+  const copyRef = useRef<HTMLDivElement>(null)
+  const [shot, setShot] = useState(0)
+
+  useEffect(() => {
+    heroScreens.forEach(([s]) => (new Image().src = `${import.meta.env.BASE_URL}screens/${s}`))
+    const id = setInterval(() => setShot((v) => (v + 1) % heroScreens.length), 3200)
+    return () => clearInterval(id)
+  }, [])
+
   return (
-    <section id="top" className="relative flex min-h-screen flex-col overflow-hidden bg-black">
-      <video
-        className="absolute inset-0 h-full w-full object-cover"
-        src={`${import.meta.env.BASE_URL}spb-bridge.mp4`}
-        poster={`${import.meta.env.BASE_URL}spb-bridge-poster.jpg`}
-        autoPlay
-        loop
-        muted
-        playsInline
-        aria-hidden
-      />
-      <div className="relative z-10 flex flex-1 flex-col justify-end px-6 pb-12 pt-24 md:px-12 lg:px-16 lg:pb-16">
-        <div className="lg:grid lg:grid-cols-2 lg:items-end">
-          <div>
-            <AnimatedHeading
-              text={`${TAGLINE}.
-Выходите из дома`}
-              className="mb-4 text-4xl font-normal [text-shadow:0_2px_24px_rgba(0,0,0,0.45)] md:text-5xl lg:text-6xl xl:text-7xl"
-            />
-            <FadeIn delay={800}>
-              <p className="mb-5 max-w-[680px] text-base text-gray-100 [text-shadow:0_1px_12px_rgba(0,0,0,0.55)] md:text-lg">
-                Карта мест и событий вашего города, встречи с теми, кто рядом, и прогулки с подсказками прямо на камере.
-              </p>
-            </FadeIn>
-            <FadeIn delay={1200}>
-              <div className="flex flex-wrap gap-4">
-                <a
-                  href={DOWNLOAD_URL}
-                  className="rounded-lg bg-white px-8 py-3 font-medium text-black transition duration-300 hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-[0.98]"
-                >
-                  Скачать для Android
+    <section id="top" className="relative overflow-hidden bg-black">
+      <div aria-hidden className="absolute inset-x-0 top-0 h-svh">
+        {HERO_VIDEO ? (
+          <video
+            className="h-full w-full object-cover"
+            src={`${import.meta.env.BASE_URL}hero.mp4`}
+            poster={`${import.meta.env.BASE_URL}hero-poster.jpg`}
+            autoPlay={!reduce}
+            loop
+            muted
+            playsInline
+          />
+        ) : (
+          <HeroHands quietRef={copyRef} reduce={reduce} />
+        )}
+      </div>
+      <div className="relative z-10 flex flex-col items-center px-4 pb-24 pt-[26svh] text-center sm:px-6 lg:pt-[22svh]">
+        <div ref={copyRef} className="flex max-w-[680px] flex-col items-center">
+          <AnimatedHeading
+            text={`${TAGLINE}.\nВыходите из дома`}
+            lineClassNames={['text-[#9b9b9b]', 'text-white']}
+            className="text-3xl font-medium sm:text-5xl lg:text-6xl"
+          />
+          <FadeIn delay={800}>
+            <p className="body-3 mx-auto mt-6 max-w-md text-dim">
+              Карта мест и событий вашего города, просьбы соседей и встречи на пару часов с&nbsp;теми, кто рядом.
+            </p>
+          </FadeIn>
+          <FadeIn delay={1100} className="mt-10">
+            <div className="flex flex-wrap justify-center gap-3">
+              <span className="cta-glow relative inline-flex">
+                <a href={DOWNLOAD_URL} className="btn btn-white button-md relative rounded-full px-4">
+                  <DownloadSimple size={20} weight="bold" aria-hidden /> Скачать для Android
                 </a>
-                <a
-                  href="#features"
-                  className="liquid-glass rounded-lg border border-white/20 px-8 py-3 font-medium text-white transition duration-300 hover:bg-white hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:scale-[0.98]"
-                >
-                  Что внутри
-                </a>
-              </div>
-            </FadeIn>
-          </div>
-          <div className="mt-8 flex items-end justify-start lg:mt-0 lg:justify-end">
-            <FadeIn delay={1400}>
-              <div className="liquid-glass rounded-xl border border-white/20 px-6 py-3">
-                <p className="text-lg font-light md:text-xl lg:text-2xl">Карта. События. Встречи.</p>
-              </div>
-            </FadeIn>
-          </div>
+              </span>
+              <a href="#features" className="btn button-md rounded-full border border-white/20 px-4 text-white hover:bg-white/10">
+                Что внутри
+              </a>
+            </div>
+          </FadeIn>
         </div>
+        <FadeIn delay={1400} className="mt-16">
+          <Phone src={heroScreens[shot][0]} alt={heroScreens[shot][1]} icon={MapTrifold} eager />
+        </FadeIn>
       </div>
     </section>
   )
@@ -244,7 +260,7 @@ const features: Feature[] = [
     tag: 'Каналы и чаты',
     accent: '#a3e635',
     title: 'Новости города, чаты и группы в одном списке',
-    text: 'Подпишитесь на каналы вроде «Петербург сегодня», новости, науку и мемы. Личные чаты, группы и встречи лежат рядом, переключайтесь одним касанием.',
+    text: 'Подпишитесь на каналы о своём городе, новости, науку и мемы. Личные чаты, группы и встречи лежат рядом, переключайтесь одним касанием.',
     shot: 'channels.jpg',
   },
   {
@@ -366,7 +382,7 @@ function How() {
 
 const faq = [
   { q: 'Для каких устройств приложение?', a: 'Сейчас для телефонов на Android. Скачайте установочный файл по кнопке на этой странице и откройте его.' },
-  { q: 'В каком городе работает?', a: 'Первый город — Петербург. Карта, события и маршруты настроены под него. Другие города добавим следом.' },
+  { q: 'В каком городе работает?', a: 'В любом городе России: карта, события, просьбы соседей и встречи работают там, где вы. Первая прогулка паспорта города готова для центра Петербурга, маршруты по другим городам добавим следом.' },
   { q: 'Зачем приложению геолокация?', a: 'Положение нужно, чтобы показать, что рядом, и поставить точку встречи. Доступ вы выдаёте сами и можете отключить в настройках телефона.' },
   { q: 'Что такое «Сейчас»?', a: 'Быстрый способ позвать людей: напишите, что делаете, выберите время, и активность на два часа появится на карте. Присоединиться может любой.' },
   { q: 'Что такое «Мне надо»?', a: 'Просьба к тем, кто рядом: помощь, обмен, потерянная или найденная вещь, компания, совет или специалист. Отклик приходит прямо в приложение.' },
@@ -426,17 +442,6 @@ function Footer() {
     <footer className="border-t border-line px-4 py-10 text-center caption-2 text-dim sm:px-6">
       <p>© {new Date().getFullYear()} {BRAND}</p>
       <p className="mx-auto mt-2 max-w-2xl">Фото мест в паспорте города: Wikimedia Commons, авторы и лицензии указаны в приложении.</p>
-      <p className="mx-auto mt-2 max-w-2xl">
-        Видео в начале страницы:{' '}
-        <a className="underline underline-offset-2 hover:text-white" href="https://commons.wikimedia.org/wiki/File:Bridges_in_Saint_Petersburg_MVI_3926.webm">
-          Deror avi
-        </a>
-        ,{' '}
-        <a className="underline underline-offset-2 hover:text-white" href="https://creativecommons.org/licenses/by-sa/4.0/">
-          CC BY-SA 4.0
-        </a>
-        , Wikimedia Commons. Ролик обрезан и сжат.
-      </p>
     </footer>
   )
 }

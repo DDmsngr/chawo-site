@@ -49,6 +49,21 @@ p, summary { text-wrap: pretty; }
   .btn-white { @apply bg-white text-black hover:bg-white/90; }
 }
 
+.cta-glow::before {
+  content: '';
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: -6px;
+  height: 16px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, var(--color-brand), var(--color-geo));
+  filter: blur(9px);
+  opacity: 0.85;
+  transition: opacity 0.3s var(--ease-base), transform 0.3s var(--ease-base);
+}
+.cta-glow:hover::before { opacity: 1; transform: translateY(3px) scaleX(1.05); }
+
 .liquid-glass {
   background: rgba(0, 0, 0, 0.4);
   background-blend-mode: luminosity;
