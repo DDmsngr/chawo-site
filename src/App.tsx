@@ -104,7 +104,7 @@ function Nav() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: EASE }}
-            className="fixed inset-0 z-30 flex flex-col gap-6 bg-ink/90 px-6 pt-24 backdrop-blur-2xl sm:hidden"
+            className="fixed inset-0 z-30 flex flex-col gap-6 bg-ink px-6 pt-24 sm:hidden"
           >
             {navLinks.map((l, i) => (
               <motion.a
@@ -426,9 +426,9 @@ function Cta() {
   const reveal = useReveal()
   return (
     <section className="px-4 py-24 sm:px-6">
-      <motion.div {...reveal} className="mx-auto max-w-5xl rounded-[20px] bg-brand px-6 py-24 text-center">
+      <motion.div {...reveal} className="mx-auto max-w-5xl rounded-[20px] bg-brand-strong px-6 py-24 text-center">
         <h2 className="heading-2">Город уже ждёт</h2>
-        <p className="body-lg mx-auto mt-4 max-w-md text-white/90">Скачайте {BRAND} и найдите, чем заняться сегодня.</p>
+        <p className="body-lg mx-auto mt-4 max-w-md text-white">Скачайте {BRAND} и найдите, чем заняться сегодня.</p>
         <div className="mt-8 flex justify-center">
           <DownloadButton large white />
         </div>
@@ -451,7 +451,7 @@ export default function App() {
     <>
       <a
         href="#main"
-        className="button-sm sr-only rounded-xl bg-white px-3 py-2 text-black focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50"
+        className="button-sm fixed left-4 top-4 z-50 inline-flex min-h-11 -translate-y-[200%] items-center rounded-xl bg-white px-4 text-black focus:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
       >
         Перейти к содержимому
       </a>
