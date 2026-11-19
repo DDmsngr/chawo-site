@@ -363,7 +363,7 @@ function How() {
         </motion.h2>
         <div className="mt-16 grid gap-6 md:grid-cols-3">
           {steps.map((s, i) => (
-            <motion.div key={s.title} {...reveal} transition={{ ...reveal.transition, delay: i * 0.1 }} style={{ '--accent': s.accent } as CSSProperties} className="rounded-3xl border border-line bg-card p-8 transition-colors duration-500 ease-base hover:border-(--accent)/60">
+            <motion.div key={s.title} {...reveal} transition={{ ...reveal.transition, delay: i * 0.1 }} style={{ '--accent': s.accent } as CSSProperties} className="rounded-[20px] border border-line bg-card p-8 transition-colors duration-500 ease-base hover:border-(--accent)/60">
               <div className="flex items-center gap-4">
                 <span className="flex size-12 items-center justify-center rounded-2xl bg-(--accent)/15 text-(--accent)">
                   <s.icon size={24} weight="bold" aria-hidden />
@@ -405,7 +405,7 @@ function Faq() {
         <motion.h2 {...reveal} className="heading-2 text-center">
           Вопросы
         </motion.h2>
-        <div className="mt-12 divide-y divide-line rounded-3xl border border-line bg-card">
+        <div className="mt-12 divide-y divide-line rounded-[20px] border border-line bg-card">
           {faq.map((f) => (
             <details key={f.q} className="group p-6">
               <summary className="title-2 flex cursor-pointer list-none items-center justify-between gap-4 rounded-lg focus-visible:outline-2 focus-visible:outline-white">
@@ -426,7 +426,7 @@ function Cta() {
   const reveal = useReveal()
   return (
     <section className="px-4 py-24 sm:px-6">
-      <motion.div {...reveal} className="mx-auto max-w-5xl rounded-3xl bg-brand px-6 py-24 text-center">
+      <motion.div {...reveal} className="mx-auto max-w-5xl rounded-[20px] bg-brand px-6 py-24 text-center">
         <h2 className="heading-2">Город уже ждёт</h2>
         <p className="body-lg mx-auto mt-4 max-w-md text-white/90">Скачайте {BRAND} и найдите, чем заняться сегодня.</p>
         <div className="mt-8 flex justify-center">

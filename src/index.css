@@ -2,12 +2,12 @@
 
 @theme {
   --font-sans: 'Inter', sans-serif;
-  /* Тёмные фоны только из списка скилла */
-  --color-ink: #000000;
-  --color-ink2: #181818;
-  --color-card: #1f1f1f;
-  --color-raised: #272727;
-  --color-line: #313131;
+  /* Палитра приложения (app_colors.dart) */
+  --color-ink: #111113;
+  --color-ink2: #161618;
+  --color-card: #1c1c1f;
+  --color-raised: #242428;
+  --color-line: #2c2c30;
   --color-dim: #a1a1aa;
   --color-brand: #e5507a;
   --color-brand-hover: #ec6a92;
